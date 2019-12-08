@@ -52,6 +52,10 @@ class Game
             }
             $rounds++;
         }
+        if($rounds == 20){
+            echo "Draw!!";
+            die();
+        }
         $this->setWinner();
         echo '<br>'. 'The winner is: ' . $this->winner->getName() . '!';
     }
@@ -62,16 +66,17 @@ class Game
         echo "Defence: ". $this->hero->getDefence() . "<br>";
         echo "Strength: ". $this->hero->getStrength() . "<br>";
         echo "Speed: ". $this->hero->getSpeed() . "<br>";
-        echo "Speed: ". $this->hero->getLuck() . "<br>";
+        echo "Luck: ". $this->hero->getLuck() . "<br>";
         echo "<br>"."<br>";
         echo "Name: " . $this->beast->getName() . "<br>";
         echo "Health: ". $this->beast->getHealth() . "<br>";
         echo "Defence: ". $this->beast->getDefence() . "<br>";
         echo "Strength: ". $this->beast->getStrength() . "<br>";
         echo "Speed: ". $this->beast->getSpeed() . "<br>";
-        echo "Speed: ". $this->beast->getLuck() . "<br>";
+        echo "Luck: ". $this->beast->getLuck() . "<br>";
 
     }
+
 
     public function createHero(){
         //add stats to hero
@@ -136,11 +141,17 @@ class Game
 
         $rapidStrike = $this->getHeroSkill(Skills::RAPID_STRIKE);
         $damage = $this->getDamage($this->hero, $this->beast);
+        $rapidStrike->isSkillUsed();
 
-        // false : true
+        $this->beast->isLucky();
+        if($this->beast->getIsLucky()){
+            $damage = 0;
+            echo  $this->hero->getName() . ' miss his attack!' . "<br>";
+        }
         if($rapidStrike->getIsUsed()){
             $damage = $rapidStrike->modifyDamage($damage);
         }
+
         $beastHealth = $this->beast->getHealth()- $damage;
         $this->beast->setHealth($beastHealth);
 
@@ -156,17 +167,23 @@ class Game
 
         $magicShield = $this->getHeroSkill(Skills::MAGIC_SHIELD);
         $damage = $this->getDamage($this->beast, $this->hero);
+        $magicShield->isSkillUsed();
 
-        if($magicShield->getIsUsed()){
+        $this->hero->isLucky();
+        if($this->hero->getIsLucky()){
+            $damage = 0;
+            echo $this->beast->getName() . ' miss his attack!' . '<br>';
+        }elseif($magicShield->getIsUsed()){
             $damage = $magicShield->modifyDamage($damage);
         }
+
         $heroHealth = $this->hero->getHealth() - $damage;
         $this->hero->setHealth($heroHealth);
 
         if($magicShield->getIsUsed()){
-            echo 'Hero use '. $magicShield->getName() . '!'. '<br>';
+            echo $this->hero->getName() . ' use '. $magicShield->getName() . '!'. '<br>';
         }else{
-            echo "Hero din't use any skill" . '<br>';
+            echo $this->hero->getName() . " din't use any skill" . '<br>';
         }
         echo $this->beast->getName() . " deal " . $damage . " to " . $this->hero->getName() . "!" . '<br>';
 
