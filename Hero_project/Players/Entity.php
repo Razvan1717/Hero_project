@@ -16,17 +16,14 @@ abstract class Entity {
     /**
      * @return mixed
      */
-    public function __construct()
-    {
-    }
-
 
     public function isLucky(){
         $rand = mt_rand(0, 100);
         $isLucky = $this->getLuck() >= $rand;
         $this->isLucky = $isLucky;
 
-        return $this;
+        return $this->isLucky;
+
     }
 
     /**

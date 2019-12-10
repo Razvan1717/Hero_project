@@ -4,8 +4,8 @@ namespace Hero_project\Skills;
 
 abstract class Skills {
 
-    const RAPID_STRIKE = 'RapidStrike';
-    const MAGIC_SHIELD = 'MagicShield';
+    const RAPID_STRIKE = 'Rapid Strike';
+    const MAGIC_SHIELD = 'Magic Shield';
 
     protected $name;
     protected $chance;
@@ -18,11 +18,7 @@ abstract class Skills {
         $isUsed = $this->getChance() >= $rand;
         $this->isUsed = $isUsed;
 
-        return $this;
-    }
-
-    public function modifyDamage($damage){
-        return $damage;
+        return $this->isUsed;
     }
 
     /**

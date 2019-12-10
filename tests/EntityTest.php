@@ -2,7 +2,7 @@
 
 namespace tests\EntityTest;
 
-require_once 'vendor/autoload.php';
+require 'vendor/autoload.php';
 require_once 'Hero_project/Players/Entity.php';
 
 use Hero_project\Players\Entity;
@@ -26,6 +26,25 @@ class EntityTest extends TestCase
         $this->player = $player;
         }
 
+        public function testIsLucky(){
+
+        $player = $this->player;
+        $player->setLuck(100);
+        $result = $player->isLucky();
+
+        $this->assertTrue($result);
+        }
+
+        public function testIsLuckyFalse(){
+
+        $player = $this->player;
+        $player->setLuck(0);
+        $result = $player->isLucky();
+
+        $this->assertFalse($result);
+
+        }
+
         public function testGetSetHealth(){
 
             $player = $this->player;
@@ -44,23 +63,6 @@ class EntityTest extends TestCase
 
         //same thing for all setters and getters
 
-        public function testIsLucky(){
 
-            $player = $this->player;
-            $player->setLuck(100);
-            $result = $player->isLucky();
-
-            $this->assertTrue($result);
-        }
-
-        public function testIsLuckyFalse(){
-
-            $player = $this->player;
-            $player->setLuck(0);
-            $result = $player->isLucky();
-
-            $this->assertFalse($result);
-
-        }
 
 }

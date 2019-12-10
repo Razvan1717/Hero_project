@@ -32,7 +32,7 @@ class Hero extends Entity
         return $this->skillsNames;
     }
 
-    // add skill to hero. first time need to check if skills are set
+    // first time need to check if skills are set
 
     public function isSkillSet(Skills $skill, $skillName){
         if(isset($this->skills[$skillName]) &&
@@ -46,7 +46,6 @@ class Hero extends Entity
 
     public function addSkill(Skills $skill){
         foreach($this->skillsNames as $skillName){
-            // false
             if(!$this->isSkillSet($skill, $skillName) && $skillName == $skill->getName()){
                 $this->skills[$skillName] = $skill;
             }

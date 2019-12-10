@@ -16,6 +16,7 @@ use Hero_project\Skills\MagicShield;
 use Hero_project\Players\Entity;
 use Hero_project\Players\Hero;
 use Hero_project\Players\Beast;
+use PHPUnit\Framework\Exception;
 
 
 class Game
@@ -93,8 +94,8 @@ class Game
         $rapidStrike = new RapidStrike(Skills::RAPID_STRIKE, 10);
         $magicShield = new MagicShield(Skills::MAGIC_SHIELD, 20);
 
-        $this->hero->addSkill($rapidStrike->isSkillUsed())
-            ->addSkill($magicShield->isSkillUsed());
+        $this->hero->addSkill($rapidStrike)
+            ->addSkill($magicShield);
 
         return $this;
     }
@@ -126,7 +127,10 @@ class Game
         }
         elseif($this->beast->getLuck() > $this->hero->getLuck()){
             $this->attacker = $this->beast;
+        }   else {
+           throw new Exception('Players can\'t decide who to attack first!');
         }
+        return $this->attacker;
     }
 
     // damage function
@@ -144,6 +148,7 @@ class Game
         $rapidStrike->isSkillUsed();
 
         $this->beast->isLucky();
+
         if($this->beast->getIsLucky()){
             $damage = 0;
             echo  $this->hero->getName() . ' miss his attack!' . "<br>";
@@ -170,6 +175,7 @@ class Game
         $magicShield->isSkillUsed();
 
         $this->hero->isLucky();
+
         if($this->hero->getIsLucky()){
             $damage = 0;
             echo $this->beast->getName() . ' miss his attack!' . '<br>';
@@ -211,6 +217,7 @@ class Game
         else{
             $this->winner = $this->beast;
         }
+        return $this->winner;
     }
 
     // check if players are allive
